@@ -4,10 +4,15 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
+const cuidController = require('../controllers/cuidController');
 
 // User routes
 router.post('/check-username', userController.checkUsername);
 router.get('/user-rank', userController.getUserRank);
+
+// Cuid routes
+router.post('/cuid', cuidController.saveCuid);
+router.get('/cuids', cuidController.getCuids);
 
 // Question routes
 router.get('/questions', questionController.getQuestions);
