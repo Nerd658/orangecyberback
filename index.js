@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const apiRoutes = require('./src/routes/api');
-
+SUPABASE_URL=https://eokfpyhrhsibcjpbzret.supabase.co
+DATABASE_URL=postgresql://postgres.eokfpyhrhsibcjpbzret:oGvfIggAP6K06Qhj@aws-1-eu-west-3.pooler.supabase.com:5432/postgres
 const app = express();
 const port = process.env.PORT || 3000;
 
