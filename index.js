@@ -14,3 +14,6 @@ app.use('/api', apiRoutes);
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });
+//hel
+SUPABASE_URL=https://eokfpyhrhsibcjpbzret.supabase.co
+DATABASE_URL=postgresql://postgres.eokfpyhrhsibcjpbzret:oGvfIggAP6K06Qhj@aws-1-eu-west-3.pooler.supabase.com:5432/postgres
