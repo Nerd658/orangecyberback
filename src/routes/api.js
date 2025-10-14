@@ -6,6 +6,8 @@ const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
 const cuidController = require('../controllers/cuidController');
 
+const answerController = require('../controllers/answerController');
+
 // User routes
 router.post('/check-username', userController.checkUsername);
 router.get('/user-rank', userController.getUserRank);
@@ -21,5 +23,8 @@ router.get('/questions', questionController.getQuestions);
 router.post('/submit-attempt', quizController.submitAttempt);
 router.post('/submit-final', quizController.submitFinal);
 router.get('/leaderboard', quizController.getLeaderboard);
+
+// Answer routes
+router.post('/answers', answerController.getAnswers);
 
 module.exports = router;
