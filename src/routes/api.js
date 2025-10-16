@@ -5,8 +5,12 @@ const userController = require('../controllers/userController');
 const questionController = require('../controllers/questionController');
 const quizController = require('../controllers/quizController');
 const cuidController = require('../controllers/cuidController');
+const adminController = require('../controllers/adminController');
 
 const answerController = require('../controllers/answerController');
+
+// Public settings route
+router.get('/settings', adminController.getPublicSettings);
 
 // User routes
 router.post('/check-username', userController.checkUsername);
@@ -26,5 +30,9 @@ router.get('/leaderboard', quizController.getLeaderboard);
 
 // Answer routes
 router.post('/answers', answerController.getAnswers);
+
+// Admin routes
+router.get('/admin/settings', adminController.verifyAdmin, adminController.getSettings);
+router.put('/admin/settings', adminController.verifyAdmin, adminController.updateSettings);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const quizService = require('../services/quizService');
 
 const submitAttempt = async (req, res) => {
   const { username, answers, time_taken } = req.body;
+  const io = req.io;
 
   if (!username || !answers || time_taken === undefined) {
     return res.status(400).json({ success: false, message: 'Missing required fields' });
@@ -19,6 +20,7 @@ const submitAttempt = async (req, res) => {
   try {
     const result = await quizService.submitAttempt(username, answers, time_taken);
     if (result.success) {
+      io.emit('attempt_submitted', { username, score: result.score });
       res.status(200).json(result);
     } else {
       res.status(403).json(result);
@@ -30,6 +32,7 @@ const submitAttempt = async (req, res) => {
 
 const submitFinal = async (req, res) => {
   const { username } = req.body;
+  const io = req.io;
 
   if (!username) {
     return res.status(400).json({ success: false, message: 'Username is required' });
@@ -38,6 +41,8 @@ const submitFinal = async (req, res) => {
   try {
     const result = await quizService.submitFinal(username);
     if (result.success) {
+      const leaderboard = await quizService.getLeaderboard();
+      io.emit('leaderboard_updated', leaderboard);
       res.status(200).json(result);
     } else {
       res.status(404).json(result);

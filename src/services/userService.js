@@ -6,7 +6,11 @@ const checkUsername = async (username) => {
     // Check if username exists
     const userQuery = await db.query('SELECT * FROM users WHERE username = $1', [username]);
     if (userQuery.rows.length > 0) {
-      return { success: false, message: 'Username déjà utilisé' };
+      const user = userQuery.rows[0];
+      if (user.submitted) {
+        return { success: false, message: 'Vous avez déjà finalisé votre participation.' };
+      }
+      return { success: true, isNewUser: false, user };
     }
 
     // Create user if not exists
@@ -14,9 +18,19 @@ const checkUsername = async (username) => {
       'INSERT INTO users (username, attempt_count, submitted) VALUES ($1, 0, false) RETURNING *',
       [username]
     );
-    return { success: true, message: 'Username valide', user: newUserQuery.rows[0] };
+    return { success: true, isNewUser: true, user: newUserQuery.rows[0] };
   } catch (error) {
     console.error('Error in checkUsername service', error);
+    throw error;
+  }
+};
+
+const getUserCount = async () => {
+  try {
+    const result = await db.query('SELECT COUNT(*) FROM users');
+    return parseInt(result.rows[0].count, 10);
+  } catch (error) {
+    console.error('Error in getUserCount service', error);
     throw error;
   }
 };
@@ -71,5 +85,6 @@ const getUserRank = async (username) => {
 
 module.exports = {
   checkUsername,
+  getUserCount,
   getUserRank,
 };
